@@ -52,7 +52,7 @@ namespace CorinUpdater.Lib.Service
         {
             if(process==null || process.HasExited)
             {
-                process.Start()
+                process.Start();
             }
             return false;
         }
