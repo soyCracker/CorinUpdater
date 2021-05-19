@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CorinUpdater.Base
 {
-    public class Constant
+    public class BaseConstant
     {
-        public static readonly string VERSION_FILE_PATH = "";
+        public static readonly string VERSION_FILE_NAME = "VERSION";
 
         public static readonly string TARGET_FOLDER = "";
 
-        public static readonly string DOWNLOAD_TEMP_FOLDER = "";
+        public static readonly string DOWNLOAD_TEMP_FOLDER = "NEW_VERSION";
     }
 }

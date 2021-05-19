@@ -1,6 +1,9 @@
-﻿using CorinUpdater.Lib.Model;
+﻿using CorinUpdater.Base;
+using CorinUpdater.Lib.Model;
 using CorinUpdater.Lib.Service;
+using CorinUpdater.Lib.Util;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CorinUpdater
@@ -11,14 +14,23 @@ namespace CorinUpdater
         {
             UpdateService updateService = new UpdateService();
             GithubReleaseRes info = await updateService.GetLatestVerInfo("https://api.github.com/repos/soyCracker/DelegationExporter/releases/latest");
-            Console.WriteLine("tag_name:" + info.TagName);
-            Console.WriteLine("download url:" + info.Assets[0].AssetBrowserDownloadUrl);
-            Console.WriteLine("file name:" + info.Assets[0].AssetName);
-            if (updateService.IsHasNewVer(info, "Local info path"))
+            LogUtil.Debug("tag_name:" + info.TagName);
+            LogUtil.Debug("download url:" + info.Assets[0].AssetBrowserDownloadUrl);
+            LogUtil.Debug("file name:" + info.Assets[0].AssetName);
+
+            //LogUtil.Debug(Environment.CurrentDirectory);
+            //LogUtil.Debug(Path.GetFullPath(BaseConstant.VERSION_FILE_NAME));
+            
+            if (updateService.IsHasNewVer(info, BaseConstant.VERSION_FILE_NAME))
             {
-                Console.WriteLine("Has new ver");
-                await updateService.DownloadNewVer(info, @"C:\Users\yuhuilai\OneDrive - A.S. Watson Group\桌面\temp\" + info.Assets[0].AssetName);
+                LogUtil.Debug("Has new ver, download start");
+                if(await updateService.DownloadNewVer(info, BaseConstant.DOWNLOAD_TEMP_FOLDER, info.Assets[0].AssetName))
+                {
+                    updateService.SaveVerInfo(info, BaseConstant.DOWNLOAD_TEMP_FOLDER, BaseConstant.VERSION_FILE_NAME);
+                    LogUtil.Debug("Download Finish");
+                }
             }
+
         }
     }
 }

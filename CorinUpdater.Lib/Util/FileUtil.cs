@@ -1,45 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace CorinUpdater.Lib.Util
 {
     public class FileUtil
     {
-        public static bool Create()
+        public static void DeleteWholeFolder(string dir)
         {
-
-            return false;
-        }
-
-        public static string ReadContent(string filePath)
-        {
-            try
+            foreach (string d in Directory.GetFileSystemEntries(dir))
             {
-                return File.ReadAllText(filePath);
+                if (File.Exists(d))
+                {
+                    FileInfo fi = new FileInfo(d);
+                    if (fi.Attributes.ToString().IndexOf("ReadOnly") != -1)
+                        fi.Attributes = FileAttributes.Normal;
+                    File.Delete(d);//直接刪除其中的文件   
+                }
+                else
+                    DeleteWholeFolder(d);//遞規删除子文件夹   
             }
-            catch(Exception ex)
-            {
-                LogUtil.Error(ex);
-            }
-            return "";
-        }
-
-        public static bool ByteArrayToFile(string fileName, byte[] byteArray)
-        {
-            try
-            {
-                File.WriteAllBytes(fileName, byteArray);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                LogUtil.Error(ex);
-                return false;
-            }
+            Directory.Delete(dir);//刪除已空文件夹   
         }
     }
 }
