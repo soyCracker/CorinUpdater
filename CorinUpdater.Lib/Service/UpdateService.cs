@@ -51,9 +51,9 @@ namespace CorinUpdater.Lib.Service
                 if(Directory.Exists(dir))
                 {
                     LogUtil.Debug("New Version Folder is exist");
-                    FileUtil.DeleteWholeFolder(dir);
-                    Directory.CreateDirectory(dir);
+                    FileUtil.DeleteWholeFolder(dir);                   
                 }
+                Directory.CreateDirectory(dir);
                 File.WriteAllBytes(Path.Combine(dir, fileName), await HttpUtil.DownloadFile(info.Assets[0].AssetBrowserDownloadUrl));
                 return true;
             }
