@@ -24,7 +24,7 @@ namespace CorinUpdater.Lib.Service
             return new GithubReleaseRes();
         }
 
-        public bool IsHasNewVer(GithubReleaseRes info, string localInfoPath)
+        public bool IsHasNewerVer(GithubReleaseRes info, string localInfoPath)
         {
             try
             {

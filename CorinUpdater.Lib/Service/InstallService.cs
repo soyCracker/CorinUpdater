@@ -23,18 +23,8 @@ namespace CorinUpdater.Lib.Service
             using (ZipFile zip = ZipFile.Read(zipPath, options))
             {
                 //zip.Password = password; // 解壓密碼
-                zip.ExtractAll(appDir);  // 解壓全部
+                zip.ExtractAll(appDir, ExtractExistingFileAction.OverwriteSilently);  // 解壓全部
             }
         }
-
-        public void DeleteCurrent(ICollection<ZipEntry> entries)
-        {
-            foreach (ZipEntry file in entries)
-            {
-                File.Delete(file.FileName);
-            }
-        }
-
-        
     }
 }
